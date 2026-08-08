@@ -1,0 +1,376 @@
+{
+  "schemaVersion": "toolkit.protocol.cross-language-vectors.v1",
+  "spec": {
+    "canonicalJson": "RFC-8785-compatible-json-canonicalization-with-unicode-nfc",
+    "digest": "sha256:<lowercase-hex-of-utf8-canonical-json>",
+    "resourceContextInputSchema": "toolkit.entitlement.resource-context.v1",
+    "mutationRequestInputSchema": "toolkit.mutation-request.v1",
+    "fieldPolicy": "schema allowlist; unknown fields rejected; absent optional fields omitted; null accepted only when schema marks nullable",
+    "numberPolicy": "finite safe integers only; -0 rejected; decimals and large integers must use schema strings",
+    "stringNormalization": "Unicode NFC before digesting and before writing normalized values",
+    "safeIntegerOnly": true,
+    "negativeZeroRejected": true,
+    "setArrayOrdering": "schema-marked sets sort by canonical item bytes and reject duplicates",
+    "transportFieldPolicy": "operationId, idempotencyKey, traceId, requestedAt, and transport-layer fields are excluded from semantic request digest input"
+  },
+  "targetLanguages": [
+    {
+      "language": "nodejs",
+      "minimumVersion": "22",
+      "packageHint": "toolkit-protocol"
+    },
+    {
+      "language": "python",
+      "minimumVersion": "3.11",
+      "packageHint": "toolkit-protocol-python"
+    },
+    {
+      "language": "go",
+      "minimumVersion": "1.22",
+      "packageHint": "toolkit-protocol-go"
+    }
+  ],
+  "vectors": [
+    {
+      "name": "canonical-json-nfc-key-order",
+      "kind": "canonical-json",
+      "input": {
+        "z": 1,
+        "a": {
+          "c": 3,
+          "b": 2
+        },
+        "list": [
+          {
+            "y": 2,
+            "x": 1
+          }
+        ],
+        "text": "é"
+      },
+      "expectedBody": "{\"a\":{\"b\":2,\"c\":3},\"list\":[{\"x\":1,\"y\":2}],\"text\":\"é\",\"z\":1}",
+      "expectedDigest": "sha256:18abed4664e94b5783ac53c0c783a5509a878fa22b97aae71b415ead0fad946f"
+    },
+    {
+      "name": "entitlement-resource-context-v1",
+      "kind": "resource-context-digest",
+      "input": {
+        "action": "user_settings.update",
+        "resourceType": "user_settings",
+        "resourceId": "user_123",
+        "resourceVersion": 7,
+        "ownerType": "user",
+        "ownerId": "user_123",
+        "workspaceId": "",
+        "contextSchema": "toolkit.entitlement.resource-context.v1.empty",
+        "context": {}
+      },
+      "expectedBody": "{\"action\":\"user_settings.update\",\"context\":{},\"contextSchema\":\"toolkit.entitlement.resource-context.v1.empty\",\"ownerId\":\"user_123\",\"ownerType\":\"user\",\"resourceId\":\"user_123\",\"resourceType\":\"user_settings\",\"resourceVersion\":7,\"schemaVersion\":\"toolkit.entitlement.resource-context.v1\",\"workspaceId\":\"\"}",
+      "expectedDigest": "sha256:fd9ba960d0e39864ab3f53724bdf58ffbb891c1169348c0befa548bc354b6f4e"
+    },
+    {
+      "name": "mutation-request-v1",
+      "kind": "mutation-request-digest",
+      "input": {
+        "action": "user_settings.update",
+        "resourceContext": {
+          "action": "user_settings.update",
+          "resourceType": "user_settings",
+          "resourceId": "user_123",
+          "resourceVersion": 7,
+          "ownerType": "user",
+          "ownerId": "user_123",
+          "workspaceId": "",
+          "contextSchema": "toolkit.entitlement.resource-context.v1.empty",
+          "context": {}
+        },
+        "authorizationRulesDigest": "sha256:f5e8e0f5cbbf55302209b8f8aa312be6afde5420ae9e539575b5ba3f88e26a60",
+        "features": [
+          "b",
+          "a"
+        ],
+        "payloadSchema": "toolkit.digest-vector.v1",
+        "payload": {
+          "label": "é",
+          "optional": null,
+          "ordered": [
+            "first",
+            "second"
+          ],
+          "tags": [
+            "z",
+            "a"
+          ],
+          "count": 7
+        }
+      },
+      "expectedBody": "{\"action\":\"user_settings.update\",\"authorizationRulesDigest\":\"sha256:f5e8e0f5cbbf55302209b8f8aa312be6afde5420ae9e539575b5ba3f88e26a60\",\"features\":[\"a\",\"b\"],\"payload\":{\"count\":7,\"label\":\"é\",\"optional\":null,\"ordered\":[\"first\",\"second\"],\"tags\":[\"a\",\"z\"]},\"payloadSchema\":\"toolkit.digest-vector.v1\",\"resourceContextDigest\":\"sha256:fd9ba960d0e39864ab3f53724bdf58ffbb891c1169348c0befa548bc354b6f4e\",\"schemaVersion\":\"toolkit.mutation-request.v1\"}",
+      "expectedDigest": "sha256:b3a8be568dce11ce7a64271c203ffd7fcf984dfbaf53911c849e0c5fc389806d"
+    },
+    {
+      "name": "mutation-request-optional-absent-v1",
+      "kind": "mutation-request-digest",
+      "input": {
+        "action": "user_settings.update",
+        "resourceContext": {
+          "action": "user_settings.update",
+          "resourceType": "user_settings",
+          "resourceId": "user_123",
+          "resourceVersion": 7,
+          "ownerType": "user",
+          "ownerId": "user_123",
+          "workspaceId": "",
+          "contextSchema": "toolkit.entitlement.resource-context.v1.empty",
+          "context": {}
+        },
+        "authorizationRulesDigest": "sha256:f5e8e0f5cbbf55302209b8f8aa312be6afde5420ae9e539575b5ba3f88e26a60",
+        "features": [
+          "b",
+          "a"
+        ],
+        "payloadSchema": "toolkit.digest-vector.v1",
+        "payload": {
+          "label": "é",
+          "ordered": [
+            "first",
+            "second"
+          ],
+          "tags": [
+            "z",
+            "a"
+          ],
+          "count": 7
+        }
+      },
+      "expectedBody": "{\"action\":\"user_settings.update\",\"authorizationRulesDigest\":\"sha256:f5e8e0f5cbbf55302209b8f8aa312be6afde5420ae9e539575b5ba3f88e26a60\",\"features\":[\"a\",\"b\"],\"payload\":{\"count\":7,\"label\":\"é\",\"ordered\":[\"first\",\"second\"],\"tags\":[\"a\",\"z\"]},\"payloadSchema\":\"toolkit.digest-vector.v1\",\"resourceContextDigest\":\"sha256:fd9ba960d0e39864ab3f53724bdf58ffbb891c1169348c0befa548bc354b6f4e\",\"schemaVersion\":\"toolkit.mutation-request.v1\"}",
+      "expectedDigest": "sha256:f16a1fb6b23d2a3787f303fa7ffa4e7ae43deced6e3b4bc8d55a1cfc2e1923f7",
+      "note": "Absent nullable fields are omitted and must not be treated as JSON null."
+    },
+    {
+      "name": "mutation-request-transport-fields-ignored-v1",
+      "kind": "mutation-request-digest",
+      "input": {
+        "action": "user_settings.update",
+        "resourceContext": {
+          "action": "user_settings.update",
+          "resourceType": "user_settings",
+          "resourceId": "user_123",
+          "resourceVersion": 7,
+          "ownerType": "user",
+          "ownerId": "user_123",
+          "workspaceId": "",
+          "contextSchema": "toolkit.entitlement.resource-context.v1.empty",
+          "context": {}
+        },
+        "authorizationRulesDigest": "sha256:f5e8e0f5cbbf55302209b8f8aa312be6afde5420ae9e539575b5ba3f88e26a60",
+        "features": [
+          "b",
+          "a"
+        ],
+        "payloadSchema": "toolkit.digest-vector.v1",
+        "payload": {
+          "label": "é",
+          "optional": null,
+          "ordered": [
+            "first",
+            "second"
+          ],
+          "tags": [
+            "z",
+            "a"
+          ],
+          "count": 7
+        },
+        "operationId": "op_should_not_affect_digest",
+        "idempotencyKey": "idem_should_not_affect_digest",
+        "traceId": "trace_should_not_affect_digest",
+        "requestedAt": "2026-08-05T00:00:00.000Z"
+      },
+      "expectedBody": "{\"action\":\"user_settings.update\",\"authorizationRulesDigest\":\"sha256:f5e8e0f5cbbf55302209b8f8aa312be6afde5420ae9e539575b5ba3f88e26a60\",\"features\":[\"a\",\"b\"],\"payload\":{\"count\":7,\"label\":\"é\",\"optional\":null,\"ordered\":[\"first\",\"second\"],\"tags\":[\"a\",\"z\"]},\"payloadSchema\":\"toolkit.digest-vector.v1\",\"resourceContextDigest\":\"sha256:fd9ba960d0e39864ab3f53724bdf58ffbb891c1169348c0befa548bc354b6f4e\",\"schemaVersion\":\"toolkit.mutation-request.v1\"}",
+      "expectedDigest": "sha256:b3a8be568dce11ce7a64271c203ffd7fcf984dfbaf53911c849e0c5fc389806d",
+      "ignoredFields": [
+        "operationId",
+        "idempotencyKey",
+        "traceId",
+        "requestedAt"
+      ]
+    }
+  ],
+  "negativeVectors": [
+    {
+      "name": "canonical-json-undefined-not-representable",
+      "kind": "canonical-json",
+      "inputEncoding": "host-language-value",
+      "valueShape": {
+        "field": "undefined"
+      },
+      "expectedError": "undefined"
+    },
+    {
+      "name": "canonical-json-nan-rejected",
+      "kind": "canonical-json",
+      "inputEncoding": "host-language-value",
+      "valueShape": {
+        "n": "NaN"
+      },
+      "expectedError": "finite"
+    },
+    {
+      "name": "canonical-json-negative-zero-rejected",
+      "kind": "canonical-json",
+      "inputEncoding": "host-language-value",
+      "valueShape": {
+        "n": "-0"
+      },
+      "expectedError": "negative-zero"
+    },
+    {
+      "name": "resource-context-null-workspace-rejected",
+      "kind": "resource-context-digest",
+      "input": {
+        "action": "user_settings.update",
+        "resourceType": "user_settings",
+        "resourceId": "user_123",
+        "resourceVersion": 7,
+        "ownerType": "user",
+        "ownerId": "user_123",
+        "workspaceId": null,
+        "contextSchema": "toolkit.entitlement.resource-context.v1.empty",
+        "context": {}
+      },
+      "expectedError": "must not be null"
+    },
+    {
+      "name": "resource-context-unknown-field-rejected",
+      "kind": "resource-context-digest",
+      "input": {
+        "action": "user_settings.update",
+        "resourceType": "user_settings",
+        "resourceId": "user_123",
+        "resourceVersion": 7,
+        "ownerType": "user",
+        "ownerId": "user_123",
+        "workspaceId": "",
+        "contextSchema": "toolkit.entitlement.resource-context.v1.empty",
+        "context": {},
+        "transportTraceId": "trace_should_not_be_hashed"
+      },
+      "expectedError": "not allowed"
+    },
+    {
+      "name": "mutation-request-unknown-payload-field-rejected",
+      "kind": "mutation-request-digest",
+      "input": {
+        "action": "user_settings.update",
+        "resourceContext": {
+          "action": "user_settings.update",
+          "resourceType": "user_settings",
+          "resourceId": "user_123",
+          "resourceVersion": 7,
+          "ownerType": "user",
+          "ownerId": "user_123",
+          "workspaceId": "",
+          "contextSchema": "toolkit.entitlement.resource-context.v1.empty",
+          "context": {}
+        },
+        "authorizationRulesDigest": "sha256:f5e8e0f5cbbf55302209b8f8aa312be6afde5420ae9e539575b5ba3f88e26a60",
+        "features": [
+          "b",
+          "a"
+        ],
+        "payloadSchema": "toolkit.digest-vector.v1",
+        "payload": {
+          "label": "é",
+          "optional": null,
+          "ordered": [
+            "first",
+            "second"
+          ],
+          "tags": [
+            "z",
+            "a"
+          ],
+          "count": 7,
+          "unknown": true
+        }
+      },
+      "expectedError": "unknown is not allowed"
+    },
+    {
+      "name": "mutation-request-unsafe-integer-rejected",
+      "kind": "mutation-request-digest",
+      "input": {
+        "action": "user_settings.update",
+        "resourceContext": {
+          "action": "user_settings.update",
+          "resourceType": "user_settings",
+          "resourceId": "user_123",
+          "resourceVersion": 7,
+          "ownerType": "user",
+          "ownerId": "user_123",
+          "workspaceId": "",
+          "contextSchema": "toolkit.entitlement.resource-context.v1.empty",
+          "context": {}
+        },
+        "authorizationRulesDigest": "sha256:f5e8e0f5cbbf55302209b8f8aa312be6afde5420ae9e539575b5ba3f88e26a60",
+        "features": [
+          "b",
+          "a"
+        ],
+        "payloadSchema": "toolkit.digest-vector.v1",
+        "payload": {
+          "label": "é",
+          "optional": null,
+          "ordered": [
+            "first",
+            "second"
+          ],
+          "tags": [
+            "z",
+            "a"
+          ],
+          "count": 9007199254740992
+        }
+      },
+      "expectedError": "safe integer"
+    },
+    {
+      "name": "mutation-request-duplicate-set-rejected",
+      "kind": "mutation-request-digest",
+      "input": {
+        "action": "user_settings.update",
+        "resourceContext": {
+          "action": "user_settings.update",
+          "resourceType": "user_settings",
+          "resourceId": "user_123",
+          "resourceVersion": 7,
+          "ownerType": "user",
+          "ownerId": "user_123",
+          "workspaceId": "",
+          "contextSchema": "toolkit.entitlement.resource-context.v1.empty",
+          "context": {}
+        },
+        "authorizationRulesDigest": "sha256:f5e8e0f5cbbf55302209b8f8aa312be6afde5420ae9e539575b5ba3f88e26a60",
+        "features": [
+          "b",
+          "a"
+        ],
+        "payloadSchema": "toolkit.digest-vector.v1",
+        "payload": {
+          "label": "é",
+          "optional": null,
+          "ordered": [
+            "first",
+            "second"
+          ],
+          "tags": [
+            "a",
+            "a"
+          ],
+          "count": 7
+        }
+      },
+      "expectedError": "duplicate set items"
+    }
+  ]
+}

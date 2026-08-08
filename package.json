@@ -1,0 +1,20 @@
+{
+  "name": "@toolkit-fun/protocol",
+  "version": "0.1.0-preview.0",
+  "private": false,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "toolkit-protocol Developer Preview public repository scaffold",
+  "keywords": [
+    "toolkit",
+    "developer-preview"
+  ],
+  "scripts": {
+    "protocol:node:selftest": "node scripts/protocol_cross_language_node_selftest.mjs",
+    "protocol:python:selftest": "python3 scripts/protocol_cross_language_python_selftest.py",
+    "protocol:go:selftest": "go run scripts/protocol_cross_language_go_selftest.go",
+    "protocol:cross-language:selftest": "npm run protocol:node:selftest && npm run protocol:python:selftest && npm run protocol:go:selftest",
+    "test": "npm run protocol:cross-language:selftest"
+  },
+  "dependencies": {}
+}

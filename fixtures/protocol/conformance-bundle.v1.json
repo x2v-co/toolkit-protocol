@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "toolkit.protocol.conformance-bundle.v1",
+  "packageName": "toolkit-protocol",
+  "bundleVersion": "0.1.0-preview",
+  "vectorSchemaVersion": "toolkit.protocol.cross-language-vectors.v1",
+  "targetLanguages": [
+    "go",
+    "nodejs",
+    "python"
+  ],
+  "vectorCount": 5,
+  "negativeVectorCount": 8,
+  "artifacts": [
+    {
+      "path": "fixtures/protocol/cross-language-vectors.v1.json",
+      "role": "cross-language-vectors",
+      "mediaType": "application/json; charset=utf-8",
+      "schemaVersion": "toolkit.protocol.cross-language-vectors.v1",
+      "byteLength": 13298,
+      "digest": "sha256:fdd51c6fcc056a3bddaa80a4b579c84965fe8d5625de33e26399f5380c2c397f"
+    },
+    {
+      "path": "scripts/protocol_cross_language_node_selftest.mjs",
+      "role": "nodejs-verifier",
+      "mediaType": "text/javascript; charset=utf-8",
+      "byteLength": 783,
+      "digest": "sha256:6cdf86011173ce0630f75f8889647f12acf4ba3517a98831979e9379ea636e63"
+    },
+    {
+      "path": "scripts/protocol_cross_language_python_selftest.py",
+      "role": "python-verifier",
+      "mediaType": "text/x-python; charset=utf-8",
+      "byteLength": 9826,
+      "digest": "sha256:a9a21dad5cd31dffa52e6bfb6aa5bb8f86ed6d8b95ba1cf38e03f4031ca8e0a7"
+    },
+    {
+      "path": "scripts/protocol_cross_language_go_selftest.go",
+      "role": "go-verifier",
+      "mediaType": "text/x-go; charset=utf-8",
+      "byteLength": 11902,
+      "digest": "sha256:77ea1d16253ce0e618bf2d90d68e574f51f6cfee6f459082cd660478d29eebfd"
+    }
+  ],
+  "requiredCommands": [
+    "npm run protocol:node:selftest",
+    "npm run protocol:python:selftest",
+    "npm run protocol:go:selftest",
+    "npm run protocol:cross-language:selftest"
+  ],
+  "publishContract": {
+    "registryTrust": "disabled-for-developer-preview",
+    "networkEffect": "none",
+    "privateImportsAllowed": false,
+    "canonicalJson": "RFC-8785-compatible-json-canonicalization-with-unicode-nfc",
+    "digest": "sha256:<lowercase-hex-of-utf8-canonical-json>"
+  },
+  "digest": "sha256:697acfec05badd5b69c822a3e06c7e54eb98fae993be88dbf281e391c5490608"
+}
