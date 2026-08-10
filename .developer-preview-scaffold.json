@@ -1,7 +1,7 @@
 {
   "schemaVersion": "toolkit.developer-preview-public-repo-scaffold.v1",
   "packageName": "toolkit-protocol",
-  "generatedAt": "2026-08-08T13:39:23.856Z",
+  "generatedAt": "2026-08-08T13:57:50.300Z",
   "boundaryVersion": "toolkit.community-package-boundary.v1",
   "cleanSplitMode": "clean-directory-no-private-history",
   "registryTrust": "disabled-for-developer-preview",
@@ -122,8 +122,8 @@
     },
     {
       "path": ".github/workflows/release.yml",
-      "byteLength": 1224,
-      "digest": "sha256:d295e55fc1b91d60e6de89e7ed094b07865f57ebecec5fabe8c6729d2388a3f0",
+      "byteLength": 1252,
+      "digest": "sha256:bedb93b3fb44b124646e2ba162a0a2fa15d118987f36d343bd33be2631272ba3",
       "generated": true
     }
   ],
@@ -138,5 +138,5 @@
     ".github/workflows/release.yml"
   ],
   "protocolConformanceBundleDigest": "sha256:697acfec05badd5b69c822a3e06c7e54eb98fae993be88dbf281e391c5490608",
-  "digest": "sha256:5da20ae49711cc3688be93e4a2feb3fa5f768d0475605c2cc8682478ec1e73f9"
+  "digest": "sha256:4ed7fb509e12404e4eaa2d81dd049909f4f060f8d29b61bdad5e4a9a787fc8ce"
 }
